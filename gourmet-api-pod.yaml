@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.network/springcloud: "true"
+    io.kompose.service: gourmet-api
+  name: gourmet-api
+spec:
+  containers:
+  - env:
+    - name: WAIT_HOSTS
+      value: docker-gourmet-db-mysql:3306
+    image: gourmet-api:v1
+    name: docker-gourmet-api
+    ports:
+    - containerPort: 8080
+    resources: {}
+  restartPolicy: OnFailure
+status: {}

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe
+      convert --provider=openshift
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: gourmet-web
+  name: gourmet-web
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: gourmet-web
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/springcloud: "true"
+        io.kompose.service: gourmet-web
+    spec:
+      containers:
+      - image: ' '
+        name: docker-gourmet-web
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - docker-gourmet-web
+      from:
+        kind: ImageStreamTag
+        name: gourmet-web:v1
+    type: ImageChange
+status: {}
